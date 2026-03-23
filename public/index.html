@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FetchNews</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Portal editorial</p>
+        <h1>FetchNews</h1>
+        <p class="hero-copy">Genera un protocolo riguroso para investigar noticias en feeds RSS/Atom oficiales, guarda búsquedas y vuelve a ejecutarlas con un clic.</p>
+      </div>
+      <div class="hero-card">
+        <h2>Cómo usarlo</h2>
+        <ol>
+          <li>Define el tema y el rango de fechas.</li>
+          <li>Opcionalmente ajusta idioma, exclusiones y máximo por fuente.</li>
+          <li>Genera el protocolo y reutilízalo en tu flujo editorial.</li>
+        </ol>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Nueva búsqueda</h2>
+          <button id="resetFormButton" class="ghost">Volver a realizar una búsqueda</button>
+        </div>
+
+        <form id="searchForm" class="form-grid">
+          <label>
+            <span>TEMA *</span>
+            <textarea id="topic" name="topic" rows="4" placeholder="Ej.: adopción de copilots de IA en banca regional" required></textarea>
+          </label>
+
+          <label>
+            <span>RANGO_FECHA *</span>
+            <input id="dateRange" name="dateRange" type="text" placeholder="Ej.: último semestre" required>
+          </label>
+
+          <label>
+            <span>IDIOMA_PREFERIDO</span>
+            <select id="language" name="language">
+              <option value="ambos">Ambos</option>
+              <option value="español">Español</option>
+              <option value="inglés">Inglés</option>
+            </select>
+          </label>
+
+          <label>
+            <span>MAX_POR_FUENTE</span>
+            <input id="maxPerSource" name="maxPerSource" type="number" min="1" placeholder="10">
+          </label>
+
+          <label class="full-width">
+            <span>EXCLUSIONES</span>
+            <input id="exclusions" name="exclusions" type="text" placeholder="Ej.: criptomonedas, gaming, startups seed">
+          </label>
+
+          <div class="actions full-width">
+            <button type="submit" class="primary">Generar protocolo</button>
+          </div>
+        </form>
+
+        <div id="feedback" class="feedback" aria-live="polite"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Protocolo generado</h2>
+          <button id="copyPromptButton" class="ghost" disabled>Copiar prompt</button>
+        </div>
+        <pre id="promptOutput" class="prompt-box empty">Completa el formulario para generar el protocolo.</pre>
+      </section>
+    </main>
+
+    <section class="panel sources-panel">
+      <div class="panel-header">
+        <h2>Fuentes autorizadas</h2>
+        <span class="hint">Solo feeds RSS/Atom oficiales o páginas oficiales de feeds.</span>
+      </div>
+      <div id="sourcesList" class="source-grid"></div>
+    </section>
+
+    <section class="panel history-panel">
+      <div class="panel-header">
+        <h2>Búsquedas anteriores</h2>
+        <button id="reloadHistoryButton" class="ghost">Actualizar historial</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+  </div>
+
+  <template id="historyItemTemplate">
+    <article class="history-item">
+      <div>
+        <h3 class="history-title"></h3>
+        <p class="history-meta"></p>
+        <p class="history-extra"></p>
+      </div>
+      <div class="history-actions">
+        <button class="ghost load-button">Cargar</button>
+        <button class="primary rerun-button">Ejecutar nuevamente</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
